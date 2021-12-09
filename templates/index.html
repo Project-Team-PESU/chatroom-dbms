@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% block content %}
+    <ul>
+    {% for guild in guilds %}
+        <li>{{ guild.name }}</li>
+    {% endfor %}
+    </ul>
+{% endblock %}
