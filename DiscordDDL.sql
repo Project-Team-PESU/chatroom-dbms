@@ -1,0 +1,140 @@
+DROP DATABASE discord;
+CREATE DATABASE discord;
+
+\c discord;
+
+CREATE TYPE Gender AS ENUM('F', 'M', 'O');
+
+CREATE TABLE GUILD (
+	Guild_ID VARCHAR(30) NOT NULL, 
+	Guild_Icon VARCHAR(30) UNIQUE,
+	Guild_Name VARCHAR(30) UNIQUE NOT NULL,
+	Owner_ID VARCHAR(30) NOT NULL,
+	PRIMARY KEY (Guild_ID)
+);
+
+CREATE TABLE D_USER (
+	User_Id VARCHAR(30) NOT NULL, 
+	Username VARCHAR(30) NOT NULL,
+	Email VARCHAR(30) UNIQUE NOT NULL,
+	Avatar VARCHAR(30),
+	Gender Gender,
+	Encrypted_Password VARCHAR(30) NOT NULL,
+	Nickname VARCHAR(30),
+	PRIMARY KEY (User_ID)
+);
+
+ALTER TABLE D_USER
+ADD CONSTRAINT validate_email 
+CHECK(Email LIKE '%_@__%.__%');
+
+ALTER TABLE GUILD
+ADD CONSTRAINT fk_key
+FOREIGN KEY (Owner_ID) REFERENCES D_USER (User_ID);
+
+CREATE TABLE CHANNEL (
+	Channel_ID VARCHAR(30) NOT NULL, 
+	Channel_Name VARCHAR(30) NOT NULL,
+	Description VARCHAR(30),
+	Private INT NOT NULL,
+	Category_Name VARCHAR(30),
+	Category_Position INT NOT NULL,
+	Guild_ID VARCHAR(30) NOT NULL,
+	PRIMARY KEY (Channel_ID),
+	FOREIGN KEY (Guild_ID) REFERENCES GUILD(Guild_ID)
+);
+
+CREATE TABLE THREAD (
+	Thread_ID VARCHAR(30) NOT NULL, 
+	Thread_Name VARCHAR(30) NOT NULL,
+	Channel_ID VARCHAR(30) NOT NULL,
+	PRIMARY KEY (Thread_ID),
+	FOREIGN KEY (Channel_ID) REFERENCES CHANNEL(Channel_ID)
+);
+
+CREATE TABLE MESSAGE (
+	Message_ID VARCHAR(30) NOT NULL, 
+	Message_ID_of_reply VARCHAR(30),
+	Pinned INT NOT NULL,
+	"Timestamp" TIMESTAMP NOT NULL,
+	Text VARCHAR(30) NOT NULL,
+	Image VARCHAR(30),
+	PRIMARY KEY (Message_ID)
+);
+
+CREATE TABLE AUDIT_LOG (
+	Entry_ID VARCHAR(30) NOT NULL,
+	"Timestamp" TIMESTAMP NOT NULL,
+	User_ID VARCHAR(30) NOT NULL,
+	Event_Value INT,
+	Event VARCHAR(50) NOT NULL,
+	Guild_ID VARCHAR(30) NOT NULL,
+	PRIMARY KEY (Entry_ID),
+	FOREIGN KEY (Guild_ID) REFERENCES GUILD(Guild_ID)
+);
+
+CREATE TABLE ROLE (
+	Role_Name VARCHAR(30) NOT NULL,
+	Guild_ID VARCHAR(30) NOT NULL,
+	View_Audit_Log INT NOT NULL,
+	Manage_Channels INT NOT NULL,
+	View_Channel INT NOT NULL,
+	Manage_Server INT NOT NULL,
+	PRIMARY KEY (Role_Name, Guild_ID),
+	FOREIGN KEY (Guild_ID) REFERENCES GUILD(Guild_ID)
+);
+
+CREATE TABLE EMOJI (
+	Emoji_ID VARCHAR(30) NOT NULL,
+	Created_User VARCHAR(30),
+	Image VARCHAR(30) NOT NULL,
+	Animated INT NOT NULL,
+	Emoji_Name VARCHAR(30) NOT NULL,
+	PRIMARY KEY (Emoji_ID)
+);
+
+CREATE TABLE user_has_role_in_guild (
+	User_ID VARCHAR(30) NOT NULL,
+	Role_Name VARCHAR(30) NOT NULL,
+	Guild_ID VARCHAR(30) NOT NULL,
+	PRIMARY KEY (User_ID, Role_Name, Guild_ID),
+	FOREIGN KEY (User_ID) REFERENCES D_USER (User_ID),
+	FOREIGN KEY (Role_Name, Guild_ID) REFERENCES ROLE(Role_Name, Guild_ID)
+);
+
+CREATE TABLE role_given_access_to_channel (
+	Role_Name VARCHAR(30) NOT NULL,
+	Guild_ID VARCHAR(30) NOT NULL,
+	Channel_ID VARCHAR(30) NOT NULL,
+	PRIMARY KEY (Role_Name, Guild_ID, Channel_ID),
+	FOREIGN KEY (Channel_ID) REFERENCES CHANNEL(Channel_ID),
+	FOREIGN KEY (Role_Name, Guild_ID) REFERENCES ROLE(Role_Name, Guild_ID)
+);
+
+CREATE TABLE message_sent_in_channel (
+	Message_ID VARCHAR(30) NOT NULL,
+	Channel_ID VARCHAR(30) NOT NULL,
+	User_ID VARCHAR(30) NOT NULL,
+	PRIMARY KEY (Message_ID, Channel_ID, User_ID),
+	FOREIGN KEY (Message_ID) REFERENCES MESSAGE(Message_ID),
+	FOREIGN KEY (Channel_ID) REFERENCES CHANNEL(Channel_ID),
+	FOREIGN KEY (User_ID) REFERENCES D_USER (User_ID)
+);
+
+CREATE TABLE message_sent_in_thread (
+	Message_ID VARCHAR(30) NOT NULL,
+	Thread_ID VARCHAR(30) NOT NULL,
+	User_ID VARCHAR(30) NOT NULL,
+	PRIMARY KEY (Message_ID, Thread_ID, User_ID),
+	FOREIGN KEY (Message_ID) REFERENCES MESSAGE(Message_ID),
+	FOREIGN KEY (Thread_ID) REFERENCES THREAD(Thread_ID),
+	FOREIGN KEY (User_ID) REFERENCES D_USER (User_ID)
+);
+
+CREATE TABLE message_has_emoji (
+	Message_ID VARCHAR(30) NOT NULL,
+	Emoji_ID VARCHAR(30) NOT NULL,
+	PRIMARY KEY (Message_ID, Emoji_ID),
+	FOREIGN KEY (Message_ID) REFERENCES MESSAGE(Message_ID),
+	FOREIGN KEY (Emoji_ID) REFERENCES EMOJI(Emoji_ID)
+);

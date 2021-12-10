@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1>Let's see some more information about this guild!</h1>
+    <p>
+        The name of the guild is {{guild.name}} - it's a pretty great one.
+    </p>
+    <a href="{{url_for('index')}}">See all the guilds</a>
+    <br>
+{% endblock %}
