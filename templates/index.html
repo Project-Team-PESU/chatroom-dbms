@@ -14,10 +14,15 @@
             font-weight: normal;
             font-style: normal;
         }
-
+		
+		.navbar .navbar-brand {
+			font-size:25px !important;
+		}
+		
         * {
             font-family: "whitneybold";
             background-color: #295ee7;
+            color: white !important;
         }
 
         #title {
@@ -59,8 +64,8 @@
         <h1>Your place to talk</h1> <br>
         <p>Whether you’re part of a school club, gaming group, worldwide art community, or just a handful of friends that want to spend time together, Discord (Clone) makes it easy to talk every day and hang out more often.</p>
         <br> <br> <br>
-        <img src="https://discord.com/assets/e92fcc9ab6e63c1a17e954af347a1f1d.svg" id="img1">
-        <img src="https://discord.com/assets/7b01f72a2054561145b6dd04add417c0.svg" id="img2">
+        <img src="static/image-1.svg" id="img1">
+        <img src="static/image-2.svg" id="img2">
         {% if not session["user_id"] %}
             <button type="button" id="button" onclick="window.location.replace('/login')">Login to Discord (Clone) </button>
         {% else %}
