@@ -1,19 +1,22 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    Message
+    Guilds
 {% endblock %}
 
 {% block main %}
-    <hr>
-    <h3>Results</h3>
-    {% if results|length == 0 %}
-        <h4>No similar room name found, please try again</h4>
-    {% else %}
-        <ul>
-            {% for result in results %}
-                <li><a href="/room/{{ result[0] }}">{{ result[1] }} - {{ result[2] }}</a></li>
-            {% endfor %}
-        </ul>
-    {% endif %}
+	<link rel="stylesheet" href="/static/all_styles.css"> 
+	<div class='here'>
+		<br><br><br>
+		<h1>Welcome! Here are all your guilds</h1>
+		{% if results|length == 0 %}
+		    <h4>No similar room name found, please try again</h4>
+		{% else %}
+		    <ul>
+		        {% for result in results %}
+		            <li><a href="/room/{{ result[0] }}">{{ result[1] }} - {{ result[2] }}</a></li>
+		        {% endfor %}
+		    </ul>
+		 {% endif %}
+    </div>
 {% endblock %}

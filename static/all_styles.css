@@ -1,0 +1,25 @@
+@font-face {
+	font-family: 'whitneybold';
+	src: url('/static/whitney-bold-webfont.woff2') format('woff2'),
+		url('/static/whitney-bold-webfont.woff') format('woff');
+	font-weight: normal;
+	font-style: normal;
+}
+
+.navbar .navbar-brand {
+	font-size:25px !important;
+}
+* {
+	background-image: url("../static/bg.png") !important;
+	font-family: "whitneybold";
+    color: white !important;
+}
+.here {
+	width: 60%;
+    margin: auto;
+    border: 0px solid #4287f5;
+}
+h1 {
+	text-align: center;
+}
+

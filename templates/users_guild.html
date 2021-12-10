@@ -1,29 +1,32 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    Message
+    Users and Channels in Guild
 {% endblock %}
 
 {% block main %}
-    <hr>
-    <h3>Users in guild</h3>
-    {% if user_results|length == 0 %}
-        <h4>No user subscribed to guild</h4>
-    {% else %}
-        <ul>
-            {% for result in user_results %}
-                <li>{{ result[1] }} - {{ result[2] }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}
-    <h3>Channel in guild</h3>
-    {% if channel_results|length == 0 %}
-        <h4>No channel found in guild, please try again</h4>
-    {% else %}
-        <ul>
-            {% for result in channel_results %}
-                <li><a href="/channel/{{ result[0] }}">{{ result[1] }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}
+	<link rel="stylesheet" href="/static/all_styles.css"> 
+	<div class='here'>
+		<br><br><br>
+		<h1>Users in guild</h1>
+		{% if user_results|length == 0 %}
+		    <h3>No user subscribed to guild</h3>
+		{% else %}
+		    <ul>
+		        {% for result in user_results %}
+		            <li>{{ result[1] }} - {{ result[2] }}</li>
+		        {% endfor %}
+		    </ul>
+		{% endif %}
+		<h1>Channel in guild</h1>
+		{% if channel_results|length == 0 %}
+		    <h3>No channel found in guild, please try again</h3>
+		{% else %}
+		    <ul>
+		        {% for result in channel_results %}
+		            <li><a href="/channel/{{ result[0] }}">{{ result[1] }}</li>
+		        {% endfor %}
+		    </ul>
+		{% endif %}
+	</div>
 {% endblock %}

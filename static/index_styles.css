@@ -1,0 +1,54 @@
+@font-face {
+    font-family: 'whitneybold';
+    src: url('/static/whitney-bold-webfont.woff2') format('woff2'),
+        url('/static/whitney-bold-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.navbar .navbar-brand {
+	font-size:25px !important;
+}
+
+* {
+    font-family: "whitneybold";
+    background-color: #295ee7;
+    color: white !important;
+}
+
+#title {
+    text-align: center;
+    margin-top: 200px;
+    color: white;
+}
+button {
+    width: 280px; height: 60px; color: white; outline: none; margin-left: 200px; border: 1px solid #23272a;
+    background-color: #23272a; border-radius: 20px;
+}
+
+button:hover {
+    /* background-color: rgba(35, 39, 42, 0.5); */
+    background-color: rgba(35, 39, 42, 0.9);
+    box-shadow: 0 0 5px rgb(71, 75, 77);
+}
+
+button:focus {
+    outline: none;
+}
+
+p {
+    font-size: 20px; margin-left: 280px; margin-right: 280px;
+}
+
+#img1 {
+    position: absolute;
+    margin-top: -300px;
+    margin-left: -1300px;
+}
+
+#img2 {
+    position: absolute;
+    margin-top: -300px;
+    margin-left: 800px;
+}
+
